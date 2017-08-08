@@ -1,26 +1,13 @@
-import { FirebaseService } from './firebase.service';
 import { Injectable } from '@angular/core';
-
-enum ProviderKey {
-    FIREBASE,
-    AUTH0
-}
+import { Auth0Service } from 'lib/services/auth0/auth0.service';
+import { FirebaseService } from 'lib/services/firebase/firebase.service';
 
 @Injectable()
 export class AuthService {
+    constructor(private auth0: Auth0Service,
+                private firebase: FirebaseService) {}
 
-    selectedProvider: ProviderKey
-    firebase: FirebaseService
-    auth0: any
-
-    constructor() {}
-
-    login() {
-        switch (this.selectedProvider) {
-            case ProviderKey.FIREBASE: {} break;
-            case ProviderKey.AUTH0: {} break;
-            default: {}
-        }
+    provider(provider) {
+        return this[provider.toLowerCase()];
     }
-
 }

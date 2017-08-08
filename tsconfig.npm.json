@@ -11,7 +11,7 @@
     "lib": ["es2015", "dom"]
   },
   "files": [
-    "./lib/ngresizable.module.ts"
+    "./src/lib/index.ts"
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true

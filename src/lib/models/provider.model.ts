@@ -1,4 +1,4 @@
-import { User } from 'lib/models/user.model';
+import { User } from './user.model';
 import { Observable } from 'rxjs/Observable';
 
 export interface Provider {

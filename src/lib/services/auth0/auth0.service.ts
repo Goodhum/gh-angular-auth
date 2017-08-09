@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Provider } from 'lib/models';
 import { JwtHelper } from 'angular2-jwt';
-import { User } from 'lib/models/user.model';
+import { Observable } from 'rxjs/Observable';
+
+import { Provider, User } from '../../models';
 
 export const Auth0Config = {
     'client_id': 'YOUR CLIENT ID',

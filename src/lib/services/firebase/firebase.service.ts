@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Provider } from 'lib/models';
 import { Observable } from 'rxjs/Rx';
-import { User } from 'lib/models/user.model';
+
+import { Provider, User } from '../../models';
 
 @Injectable()
 export class FirebaseService implements Provider {

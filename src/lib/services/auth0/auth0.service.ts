@@ -5,25 +5,30 @@ import { Provider } from 'lib/models';
 import { JwtHelper } from 'angular2-jwt';
 import { User } from 'lib/models/user.model';
 
-export const Auth0Config = {
-    'client_id': 'YOUR CLIENT ID',
-    'scope': 'openid',
-    'username': '',
-    'password': '',
-    'realm': 'Username-Password-Authentication',
-    'grant_type': 'http://auth0.com/oauth/grant-type/password-realm'
+export abstract class Auth0Config {
+    client_id: string;
+    scope?: string;
+    realm?: string;
+    grant_type?: string;
 };
 
 
 @Injectable()
 export class Auth0Service implements Provider {
+    private authConfig = {
+        scope: 'openid',
+        realm: 'Username-Password-Authentication',
+        grant_type: 'http://auth0.com/oauth/grant-type/password-realm'
+    };
+    private url: string;
 
-    url = 'https://{{YOUR-DOMAIN}}/oauth/token';
-
-    constructor(private http: Http) { }
+    constructor(private http: Http, private config?: Auth0Config) {
+        this.url = 'https://' + config['domain'] + '/oauth/token';
+        this.authConfig = Object.assign(this.authConfig, config);
+    }
 
     login(user: User): Observable<any> {
-        return this.http.post(this.url, Object.assign(Auth0Config, user));
+        return this.http.post(this.url, Object.assign(this.authConfig, user));
     };
 
     logout() {};

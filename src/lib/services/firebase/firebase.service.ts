@@ -1,19 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Provider } from 'lib/models';
 import { Observable } from 'rxjs/Rx';
 import { User } from 'lib/models/user.model';
+import * as firebase from 'firebase';
+import { Provider } from 'lib/models';
+
+export abstract class FirebaseConfig {
+    apiKey: string;
+    authDomain: string;
+    databaseURL: string;
+    projectId: string;
+    storageBucket: string;
+    messagingSenderId: string;
+}
 
 @Injectable()
 export class FirebaseService implements Provider {
+    private fb: firebase.app.App;
 
-    constructor() { }
-
-    login(user: User): Observable<any> {
-        return Observable.of({'message': 'Logged from Firebase'});
+    constructor(private config: FirebaseConfig) {
+        this.fb = firebase.initializeApp(config);
     }
 
     logout() {
         return 'Logged out from Firebase';
     }
 
+    login(user: User): Observable<any> {
+        return Observable.fromPromise(this.fb.auth().signInWithEmailAndPassword(user.username, user.password));
+    }
 }

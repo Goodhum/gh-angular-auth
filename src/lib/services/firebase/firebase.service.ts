@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { User } from 'lib/models/user.model';
 import * as firebase from 'firebase';
-import { Provider } from 'lib/models';
+import { Provider, User } from '../../models';
 
 export abstract class FirebaseConfig {
     apiKey: string;

@@ -4,14 +4,19 @@ import { Auth0Config, Auth0Service } from 'lib/services/auth0/auth0.service';
 import { FirebaseConfig, FirebaseService } from 'lib/services/firebase/firebase.service';
 import { AuthService, InjectableProvidersServices } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
+import { LoginPage } from 'lib/pages/login/login.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     imports: [
+        CommonModule,
         HttpModule
     ],
+    declarations: [LoginPage],
     providers: [
         UserService
-    ]
+    ],
+    exports: [LoginPage]
 })
 export class AuthModule {
     static initializeApp(config): ModuleWithProviders {

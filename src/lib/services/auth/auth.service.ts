@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
-import { Auth0Service } from 'lib/services/auth0/auth0.service';
-import { FirebaseService } from 'lib/services/firebase/firebase.service';
+import { Auth0Service } from '../auth0/auth0.service';
+import { FirebaseService } from '../firebase/firebase.service';
 
 export class InjectableProvidersServices {
     providers: any[];

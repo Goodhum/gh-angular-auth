@@ -8,6 +8,7 @@
     <label>Password<br><input type="password" #pass></label>
     <button (click)="login('auth0', user.value, pass.value)">Login with Auth0</button>
     <button (click)="login('firebase', user.value, pass.value)">Login with Firebase</button>
+    <button (click)="logout()">LogOut</button>
 </div>
 
 <h1>Logged Data</h1>

@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UserService {
 
-  constructor() { }
+    constructor() { }
 
+    getLoggedInProvider() {
+        return localStorage.getItem('loggedInProvider')
+    }
 }

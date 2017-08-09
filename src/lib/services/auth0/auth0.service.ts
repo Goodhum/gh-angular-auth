@@ -28,10 +28,18 @@ export class Auth0Service implements Provider {
     }
 
     login(user: User): Observable<any> {
+        localStorage.setItem('loggedInProvider', 'auth0')
+        if (localStorage.getItem('auth0')) {
+            return Observable.of(JSON.parse(localStorage.getItem('auth0')));
+        }
+        this.http.post(this.url, Object.assign(this.authConfig, user))
+                 .subscribe(res => localStorage.setItem('auth0', JSON.stringify(res)))
         return this.http.post(this.url, Object.assign(this.authConfig, user));
     };
 
-    logout() {};
+    logout() {
+        localStorage.removeItem('auth0')
+    };
 
     getUserProfileFromToken(token) {
         return new JwtHelper().decodeToken(token);

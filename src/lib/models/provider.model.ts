@@ -2,7 +2,8 @@ import { User } from './user.model';
 import { Observable } from 'rxjs/Observable';
 
 export interface Provider {
-    login: (user: User) => Observable<any>
-    logout: () => void
-    forgotPassword?: () => void
+    logout: () => void;
+    forgotPassword?: () => void;
+    login: (user: User) => Observable<any>;
+    loginWithToken?: (token) => Observable<any>;
 }

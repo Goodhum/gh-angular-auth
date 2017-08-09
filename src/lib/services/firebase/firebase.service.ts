@@ -21,10 +21,13 @@ export class FirebaseService implements Provider {
     }
 
     logout() {
+        localStorage.removeItem('firebase')
         return 'Logged out from Firebase';
     }
 
     login(user: User): Observable<any> {
+        localStorage.setItem('loggedInProvider', 'firebase')
+
         return Observable.fromPromise(this.fb.auth().signInWithEmailAndPassword(user.username, user.password));
     }
 }

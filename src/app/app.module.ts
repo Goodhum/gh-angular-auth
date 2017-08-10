@@ -4,18 +4,20 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-const config = {
-    firebase: {
-        apiKey: '',
-        authDomain: '',
-        databaseURL: '',
-        projectId: '',
-        storageBucket: '',
-        messagingSenderId: ''
-    },
-    auth0: {
-        domain: '',
-        client_id: ''
+export function config() {
+    return {
+        firebase: {
+            apiKey: '',
+            authDomain: '',
+            databaseURL: '',
+            projectId: '',
+            storageBucket: '',
+            messagingSenderId: ''
+        },
+        auth0: {
+            domain: '',
+            client_id: ''
+        }
     }
 };
 

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as firebase from 'firebase';
 import { Provider, User } from '../../models';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LocalStorageService } from 'lib/services/local-storage.service';
 
 export abstract class FirebaseConfig {
     apiKey: string;
@@ -16,18 +18,31 @@ export abstract class FirebaseConfig {
 export class FirebaseService implements Provider {
     private fb: firebase.app.App;
 
-    constructor(private config: FirebaseConfig) {
+    constructor(private ls: LocalStorageService, private config: FirebaseConfig) {
         this.fb = firebase.initializeApp(config);
+        this.ls.initialize('firebase');
     }
 
-    logout() {
-        localStorage.removeItem('firebase')
-        return 'Logged out from Firebase';
+    logout(): Observable<any> {
+        this.ls.clearLocalStorage();
+        return Observable.fromPromise(this.fb.auth().signOut());
     }
 
     login(user: User): Observable<any> {
-        localStorage.setItem('loggedInProvider', 'firebase')
-
-        return Observable.fromPromise(this.fb.auth().signInWithEmailAndPassword(user.username, user.password));
+        const response = new BehaviorSubject<any>({});
+        this.fb.auth().signInWithEmailAndPassword(user.username, user.password)
+            .then(res => {
+                const jsonRes = res.toJSON();
+                this.ls.userProfile = {
+                    name: jsonRes.displayName,
+                    email: jsonRes.email,
+                    photoUrl: jsonRes.photoURL,
+                    phoneNumber: jsonRes.phoneNumber
+                };
+                this.ls.token = jsonRes.stsTokenManager.accessToken;
+                response.next(jsonRes);
+            });
+        return response;
     }
+
 }

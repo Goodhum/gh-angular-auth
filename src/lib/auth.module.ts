@@ -6,6 +6,7 @@ import { AuthService, InjectableProvidersServices } from './services/auth/auth.s
 import { UserService } from './services/user/user.service';
 import { LoginPage } from 'lib/pages/login/login.component';
 import { CommonModule } from '@angular/common';
+import { LocalStorageService } from 'lib/services/local-storage.service';
 
 @NgModule({
     imports: [
@@ -14,23 +15,24 @@ import { CommonModule } from '@angular/common';
     ],
     declarations: [LoginPage],
     providers: [
-        UserService
+        UserService,
+        LocalStorageService
     ],
     exports: [LoginPage]
 })
 export class AuthModule {
     static initializeApp(config): ModuleWithProviders {
         const providers = [];
-        if (config.auth0) {
-            providers.push({ provide: Auth0Config, useValue: config.auth0 });
-            providers.push({ provide: Auth0Service, useClass: Auth0Service, deps: [Http, Auth0Config] });
+        if (config().auth0) {
+            providers.push({ provide: Auth0Config, useValue: config().auth0 });
+            providers.push({ provide: Auth0Service, useClass: Auth0Service, deps: [LocalStorageService, Http, Auth0Config] });
         }
 
-        if (config.firebase) {
-            providers.push({ provide: FirebaseConfig, useValue: config.firebase });
-            providers.push({ provide: FirebaseService, useClass: FirebaseService, deps: [FirebaseConfig] });
+        if (config().firebase) {
+            providers.push({ provide: FirebaseConfig, useValue: config().firebase });
+            providers.push({ provide: FirebaseService, useClass: FirebaseService, deps: [LocalStorageService, FirebaseConfig] });
         }
-        providers.push({ provide: InjectableProvidersServices, useValue: { providers: Object.keys(config) } });
+        providers.push({ provide: InjectableProvidersServices, useValue: { providers: Object.keys(config()) } });
         providers.push({ provide: AuthService, useClass: AuthService, deps: [Injector, InjectableProvidersServices] });
         return {
             ngModule: AuthModule,

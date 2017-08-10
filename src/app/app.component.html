@@ -1,1 +1,15 @@
-<gh-auth-login></gh-auth-login>
+<div class="login-form" style="
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+">
+    <label>Email<br><input type="text" #user></label>
+    <label>Password<br><input type="password" #pass></label>
+    <button (click)="login('auth0', user.value, pass.value)">Login with Auth0</button>
+    <button (click)="login('firebase', user.value, pass.value)">Login with Firebase</button>
+    <button (click)="logout()">LogOut</button>
+</div>
+
+<h1>Logged Data</h1>
+<p>{{loggedData | json}}</p>

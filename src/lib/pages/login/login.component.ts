@@ -10,12 +10,14 @@ import { UserService } from 'lib/services/user/user.service';
 export class LoginPage implements OnInit {
     loggedData: any;
 
-    constructor(public auth: AuthService, private userservice: UserService) { }
+    constructor(public auth: AuthService,
+                private userservice: UserService) { }
 
     authProvider: any;
 
     ngOnInit() {
         const provider = this.userservice.getLoggedInProvider();
+        console.log(provider)
         if (provider) {
             this.authProvider = this.auth.provider(provider);
         }

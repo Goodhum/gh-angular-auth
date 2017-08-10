@@ -4,6 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
 import { Provider, User } from '../../models';
+import { LocalStorageService } from 'lib/services/local-storage.service';
 
 export abstract class Auth0Config {
     client_id: string;
@@ -22,23 +23,23 @@ export class Auth0Service implements Provider {
     };
     private url: string;
 
-    constructor(private http: Http, private config?: Auth0Config) {
+    constructor(private ls: LocalStorageService, private http: Http, private config?: Auth0Config) {
         this.url = 'https://' + config['domain'] + '/oauth/token';
         this.authConfig = Object.assign(this.authConfig, config);
+        this.ls.initialize('firebase');
     }
 
     login(user: User): Observable<any> {
-        localStorage.setItem('loggedInProvider', 'auth0')
-        if (localStorage.getItem('auth0')) {
-            return Observable.of(JSON.parse(localStorage.getItem('auth0')));
-        }
         this.http.post(this.url, Object.assign(this.authConfig, user))
-                 .subscribe(res => localStorage.setItem('auth0', JSON.stringify(res)))
+                 .subscribe(res => {
+                     localStorage.setItem('auth0', JSON.stringify(res))
+                     console.log(res)
+                 })
         return this.http.post(this.url, Object.assign(this.authConfig, user));
     };
 
     logout() {
-        localStorage.removeItem('auth0')
+        this.ls.clearLocalStorage();
     };
 
     getUserProfileFromToken(token) {

@@ -32,8 +32,8 @@ export class Auth0Service implements Provider {
     login(user: User): Observable<any> {
         this.http.post(this.url, Object.assign(this.authConfig, user))
                  .subscribe(res => {
-                     localStorage.setItem('auth0', JSON.stringify(res))
-                     console.log(res)
+                     this.ls.token = res.json().id_token;
+                     console.log(res.json())
                  })
         return this.http.post(this.url, Object.assign(this.authConfig, user));
     };
@@ -43,6 +43,7 @@ export class Auth0Service implements Provider {
     };
 
     getUserProfileFromToken(token) {
+        console.log('token', token);
         return new JwtHelper().decodeToken(token);
     }
 

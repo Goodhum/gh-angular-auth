@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
                 private userservice: UserService) { }
 
     authProvider: any;
+    token = '';
+    JSON = JSON;
 
     ngOnInit() {
         const provider = this.userservice.getLoggedInProvider();
@@ -30,9 +32,11 @@ export class AppComponent implements OnInit {
             this.loggedData = res;
             console.log(this.userservice.getToken())
         });
+        this.token = this.authProvider.getUserProfileFromToken(this.userservice.getToken());
     }
 
     logout() {
         this.authProvider.logout();
     }
+
 }

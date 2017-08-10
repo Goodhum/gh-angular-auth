@@ -1,2 +1,1 @@
-export { AuthModule } from './auth.module';
-export { AuthService } from './services/auth/auth.service';
+export * from './gh-auth.module';

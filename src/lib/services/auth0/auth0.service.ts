@@ -4,7 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
 import { Provider, User } from '../../models';
-import { LocalStorageService } from 'lib/services/local-storage.service';
+import { LocalStorageService } from '../local-storage.service';
 
 export abstract class Auth0Config {
     client_id: string;

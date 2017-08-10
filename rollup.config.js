@@ -25,6 +25,7 @@ export default {
         '@angular/core',
         '@angular/http',
         'angular2-jwt',
+        'firebase',
         'rxjs/Observable',
         'rxjs/add/observable/of'
     ]

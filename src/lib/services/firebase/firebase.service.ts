@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import * as firebase from 'firebase';
 import { Provider, User } from '../../models';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LocalStorageService } from 'lib/services/local-storage.service';
+import { LocalStorageService } from '../local-storage.service';
 
 export abstract class FirebaseConfig {
     apiKey: string;

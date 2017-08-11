@@ -1,25 +1,9 @@
-import { AuthModule } from './../lib';
+import { GhAuthModule } from './../lib';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-
-export function config() {
-    return {
-        firebase: {
-            apiKey: '',
-            authDomain: '',
-            databaseURL: '',
-            projectId: '',
-            storageBucket: '',
-            messagingSenderId: ''
-        },
-        auth0: {
-            domain: '',
-            client_id: ''
-        }
-    }
-};
+import { config } from './providers.config';
 
 @NgModule({
     declarations: [
@@ -27,7 +11,7 @@ export function config() {
     ],
     imports: [
         BrowserModule,
-        AuthModule.initializeApp(config)
+        GhAuthModule.forRoot(config)
     ],
     providers: [],
     bootstrap: [AppComponent]

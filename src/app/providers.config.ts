@@ -1,4 +1,6 @@
-export const config = {
+import { ProvidersConfig } from '../lib';
+
+export const config: ProvidersConfig = {
     firebase: {
         apiKey: '',
         authDomain: '',

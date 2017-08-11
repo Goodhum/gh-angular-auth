@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Auth0Service } from '../auth0/auth0.service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { ProvidersConfig, Provider } from './../../models';
-import { LocalStorageService } from 'lib/services';
+import { LocalStorageService } from '../local-storage.service';
 
 /*
  * AuthService is a container for all the provider service.

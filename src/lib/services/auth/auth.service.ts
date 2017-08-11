@@ -1,26 +1,30 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { Auth0Service } from '../auth0/auth0.service';
 import { FirebaseService } from '../firebase/firebase.service';
+import { ProvidersConfig, Provider } from './../../models';
 
-export class InjectableProvidersServices {
-    providers: any[];
-}
+// export class InjectableProvidersServices {
+//     providers: any[];
+// }
 
 @Injectable()
 export class AuthService {
+
     private auth0;
     private firebase;
 
-    constructor(private injector: Injector, config?: InjectableProvidersServices) {
-        if (config.providers.indexOf('firebase') !== -1) {
-            this.firebase = this.injector.get(FirebaseService);
-        }
-        if (config.providers.indexOf('auth0') !== -1) {
-            this.auth0 = this.injector.get(Auth0Service);
-        }
+    constructor(
+        private config: ProvidersConfig,
+        private auth0Provider: Auth0Service,
+        private firebaseProvider: FirebaseService
+    ) {
+        if (config.auth0) { this.auth0 = auth0Provider; }
+        if (config.firebase) { this.firebase = firebaseProvider; }
     }
 
-    provider(provider) {
+    provider(provider: string): Provider {
         return this[provider.toLowerCase()];
     }
+
 }

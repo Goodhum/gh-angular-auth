@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import * as firebase from 'firebase';
-import { Provider, User } from '../../models';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LocalStorageService } from 'lib/services/local-storage.service';
+import * as firebase from 'firebase';
 
-export abstract class FirebaseConfig {
-    apiKey: string;
-    authDomain: string;
-    databaseURL: string;
-    projectId: string;
-    storageBucket: string;
-    messagingSenderId: string;
-}
+import { Provider, User, ProvidersConfig } from '../../models';
+import { LocalStorageService } from '../local-storage.service';
 
 @Injectable()
 export class FirebaseService implements Provider {
     private fb: firebase.app.App;
 
-    constructor(private ls: LocalStorageService, private config: FirebaseConfig) {
-        this.fb = firebase.initializeApp(config);
-        this.ls.initialize('firebase');
+    constructor(
+        private ls: LocalStorageService,
+        private config: ProvidersConfig
+    ) {
+        if (config.firebase) {
+            this.fb = firebase.initializeApp(config.firebase);
+            this.ls.initialize('firebase');
+        }
     }
 
     logout(): Observable<any> {

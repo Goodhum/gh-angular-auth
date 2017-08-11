@@ -4,6 +4,7 @@
 /dist/*
 !/dist/package.json
 !/dist/README.md
+/demo-app
 /tmp
 /out-tsc
 

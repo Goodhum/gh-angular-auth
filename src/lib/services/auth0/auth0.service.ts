@@ -3,19 +3,13 @@ import { Http } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
-import { Provider, User } from '../../models';
+import { Provider, User, ProvidersConfig } from '../../models';
 import { LocalStorageService } from '../local-storage.service';
-
-export abstract class Auth0Config {
-    client_id: string;
-    scope?: string;
-    realm?: string;
-    grant_type?: string;
-};
-
 
 @Injectable()
 export class Auth0Service implements Provider {
+    // TODO: Should be moved to be part of external config.
+    //       The end user might want to be able to set these.
     private authConfig = {
         scope: 'openid',
         realm: 'Username-Password-Authentication',
@@ -23,10 +17,16 @@ export class Auth0Service implements Provider {
     };
     private url: string;
 
-    constructor(private ls: LocalStorageService, private http: Http, private config?: Auth0Config) {
-        this.url = 'https://' + config['domain'] + '/oauth/token';
-        this.authConfig = Object.assign(this.authConfig, config);
-        this.ls.initialize('firebase');
+    constructor(
+        private ls: LocalStorageService,
+        private http: Http,
+        private config: ProvidersConfig
+    ) {
+        if (config.auth0) {
+            this.url = 'https://' + config.auth0.domain + '/oauth/token';
+            this.authConfig = Object.assign(this.authConfig, config.auth0);
+            this.ls.initialize('firebase');
+        }
     }
 
     login(user: User): Observable<any> {

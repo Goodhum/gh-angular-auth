@@ -9,13 +9,13 @@ import { UserService } from 'lib/services/user/user.service';
 })
 export class AppComponent implements OnInit {
     loggedData: any;
+    authProvider: any;
+    token = '';
+    JSON = JSON;
 
     constructor(public auth: AuthService,
                 private userservice: UserService) { }
 
-    authProvider: any;
-    token = '';
-    JSON = JSON;
 
     ngOnInit() {
         const provider = this.userservice.getLoggedInProvider();

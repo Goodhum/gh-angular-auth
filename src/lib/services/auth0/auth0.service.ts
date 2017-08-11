@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
-import { Provider, User, ProvidersConfig } from '../../models';
+import { Provider, ProvidersConfig, User } from '../../models';
 import { LocalStorageService } from '../local-storage.service';
 
 @Injectable()
 export class Auth0Service implements Provider {
-    // TODO: Should be moved to be part of external config.
-    //       The end user might want to be able to set these.
+    // These are the default settings for auth0 it can be overridden by the configuration provided by the user
     private authConfig = {
         scope: 'openid',
         realm: 'Username-Password-Authentication',
@@ -17,34 +15,39 @@ export class Auth0Service implements Provider {
     };
     private url: string;
 
-    constructor(
-        private ls: LocalStorageService,
-        private http: Http,
-        private config: ProvidersConfig
-    ) {
+    constructor(private ls: LocalStorageService,
+                private http: Http,
+                private config: ProvidersConfig) {
         if (config.auth0) {
+            // Construct an absolute url from the domain provided.
             this.url = 'https://' + config.auth0.domain + '/oauth/token';
+
+            // Merge the default configuration with the configuration provided by the user.
             this.authConfig = Object.assign(this.authConfig, config.auth0);
-            this.ls.initialize('firebase');
         }
     }
 
     login(user: User): Observable<any> {
-        this.http.post(this.url, Object.assign(this.authConfig, user))
-                 .subscribe(res => {
-                     this.ls.token = res.json().id_token;
-                     console.log(res.json())
-                 })
-        return this.http.post(this.url, Object.assign(this.authConfig, user));
-    };
+        // Intialize the localstorage to be used by auth0 provider
+        return Observable.create(ovserver => {
+            const ob = ovserver;
+            this.http.post(this.url, Object.assign(this.authConfig, user)).subscribe(res => {
+                const jsonRes = res.json();
 
+                // Sets the local storage with the jwt token obtained from auth0 login.
+                this.ls.token = jsonRes.id_token;
+
+                // Publish the new value to an observable
+                ob.next(jsonRes);
+
+                // Complete the observable
+                ob.complete();
+            });
+        });
+    }
+
+    // Clear the localstorage related with authO
     logout() {
         this.ls.clearLocalStorage();
     };
-
-    getUserProfileFromToken(token) {
-        console.log('token', token);
-        return new JwtHelper().decodeToken(token);
-    }
-
 }

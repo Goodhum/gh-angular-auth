@@ -41,7 +41,7 @@ export class LocalStorageService {
 
     clearLocalStorage() {
         Object.keys(this.lsv).forEach(key => {
-            localStorage.removeItem(key);
+            localStorage.removeItem(this.lsv[key]);
         });
     }
 }

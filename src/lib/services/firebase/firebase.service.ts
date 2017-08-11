@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as firebase from 'firebase';
 
 import { Provider, User, ProvidersConfig } from '../../models';
@@ -15,31 +14,35 @@ export class FirebaseService implements Provider {
         private config: ProvidersConfig
     ) {
         if (config.firebase) {
+            // Initialize the firebase with the config provided.
             this.fb = firebase.initializeApp(config.firebase);
-            this.ls.initialize('firebase');
         }
     }
 
-    logout(): Observable<any> {
+
+    // Logout from the firebase and clear the local storage
+    logout() {
         this.ls.clearLocalStorage();
-        return Observable.fromPromise(this.fb.auth().signOut());
+        this.fb.auth().signOut();
     }
 
     login(user: User): Observable<any> {
-        const response = new BehaviorSubject<any>({});
-        this.fb.auth().signInWithEmailAndPassword(user.username, user.password)
-            .then(res => {
-                const jsonRes = res.toJSON();
-                this.ls.userProfile = {
-                    name: jsonRes.displayName,
-                    email: jsonRes.email,
-                    photoUrl: jsonRes.photoURL,
-                    phoneNumber: jsonRes.phoneNumber
-                };
-                this.ls.token = jsonRes.stsTokenManager.accessToken;
-                response.next(jsonRes);
-            });
-        return response;
+        return Observable.create(ovserver => {
+            const ob = ovserver;
+            this.fb.auth().signInWithEmailAndPassword(user.username, user.password)
+                .then(res => {
+                    const jsonRes = res.toJSON();
+
+                    // Sets the local storage with the jwt token obtained from firebase login.
+                    this.ls.token = jsonRes.stsTokenManager.accessToken;
+
+                    // Publish the new value to an observable
+                    ob.next(jsonRes);
+
+                    // Complete the observable
+                    ob.complete();
+                });
+        });
     }
 
 }

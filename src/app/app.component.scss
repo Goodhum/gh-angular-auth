@@ -1,0 +1,14 @@
+.gh-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .gh-providers{
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        textarea{
+            min-height: 400px;
+        }
+    }
+}

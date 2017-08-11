@@ -8,31 +8,49 @@ import { UserService } from 'lib/services/user/user.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    loggedData: any;
     authProvider: any;
-    token = '';
-    JSON = JSON;
+    userProfile = '';
+    state = {
+        auth0: {
+            data: null,
+            authenticated: false,
+            token: null
+        },
+        firebase: {
+            data: null,
+            authenticated: false,
+            token: null
+        }
+    }
 
     constructor(public auth: AuthService,
                 private userservice: UserService) { }
 
 
     ngOnInit() {
-        const provider = this.userservice.getLoggedInProvider();
-        console.log(provider);
-        if (provider) {
-            this.authProvider = this.auth.provider(provider);
+        if (this.userservice.getLoggedInProvider()) {
+            this.authProvider = this.auth.provider(this.userservice.getLoggedInProvider());
+            this.updateData(this.userservice.getLoggedInProvider());
         }
     }
 
     login(provider, username, password) {
         const user = { username: username, password: password };
         this.authProvider = this.auth.provider(provider);
-        this.authProvider.login(user).subscribe(res => {
-            this.loggedData = res;
-            console.log(this.userservice.getToken())
-        });
-        this.token = this.authProvider.getUserProfileFromToken(this.userservice.getToken());
+        if (this.userservice.isAuthenticated()) {
+            this.updateData(provider);
+        } else {
+            this.authProvider.login(user).subscribe(res => {
+                this.updateData(provider);
+            });
+        }
+    }
+
+
+    updateData(provider) {
+        this.state[provider].data = this.userservice.getUserProfileFromToken();
+        this.state[provider].authenticated = this.userservice.isAuthenticated();
+        this.state[provider].token = this.userservice.getToken();
     }
 
     logout() {

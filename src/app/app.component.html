@@ -1,16 +1,26 @@
-<div class="login-form" style="
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    margin: 0 auto;
-">
-    <label>Email<br><input type="text" #user></label>
-    <label>Password<br><input type="password" #pass></label>
-    <button (click)="login('auth0', user.value, pass.value)">Login with Auth0</button>
-    <button (click)="login('firebase', user.value, pass.value)">Login with Firebase</button>
-    <button (click)="logout()">LogOut</button>
+<div class="gh-container">
+    <div class="gh-providers">
+        <h1>FIREBASE Logged Data</h1>
+        <label>User authentication with Firebase = {{ state.firebase.authenticated }}</label>
+        <textarea>{{ state.firebase.data | json }}</textarea>
+        <div class="gh-actions-button">
+            <button (click)="login('firebase', user.value, pass.value)">Login with Firebase</button>
+            <button (click)="logout();updateData('firebase')">LogOut</button>
+        </div>
+    </div>
+    <div class="gh-providers">
+        <label>Email<br><input type="text" #user></label>
+        <label>Password<br><input type="password" #pass></label>
+    </div>
+    <div class="gh-providers">
+        <h1>AUTH0 Logged Data</h1>
+        <label>User authentication with AUTH0 = {{ state.auth0.authenticated }}</label>
+        <textarea>{{ state.auth0.data | json }}</textarea>
+        <div class="gh-actions-button">
+            <button (click)="login('auth0', user.value, pass.value)">Login with Auth0</button>
+            <button (click)="logout();updateData('auth0')">LogOut</button>
+        </div>
+    </div>
 </div>
 
-<h1>Logged Data</h1>
-<pre>{{JSON.stringify(loggedData, null, 4)}}</pre>
-<pre>{{JSON.stringify(token, null, 4)}}</pre>
+

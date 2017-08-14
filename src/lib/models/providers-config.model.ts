@@ -18,4 +18,5 @@ export interface Auth0Config {
 export abstract class ProvidersConfig {
     firebase?: FirebaseConfig;
     auth0?: Auth0Config;
+    redirectUrl?: string;
 };

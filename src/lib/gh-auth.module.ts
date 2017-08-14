@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Http, HttpModule } from '@angular/http';
 import { ProvidersConfig } from './models';
-import { LoginPage } from './pages/login/login.component';
 
 import { Auth0Service, AuthService, FirebaseService, LocalStorageService, UserService } from './services';
 
@@ -11,14 +10,12 @@ import { Auth0Service, AuthService, FirebaseService, LocalStorageService, UserSe
         CommonModule,
         HttpModule
     ],
-    declarations: [
-        LoginPage
-    ],
+    declarations: [],
     providers: [
         UserService,
         LocalStorageService
     ],
-    exports: [LoginPage]
+    exports: []
 })
 export class GhAuthModule {
     static forRoot(config: ProvidersConfig): ModuleWithProviders {
@@ -26,9 +23,13 @@ export class GhAuthModule {
             ngModule: GhAuthModule,
             providers: [
                 { provide: ProvidersConfig, useValue: config },
-                { provide: Auth0Service, useClass: Auth0Service, deps: [ LocalStorageService, Http, ProvidersConfig ] },
-                { provide: FirebaseService, useClass: FirebaseService, deps: [ LocalStorageService, ProvidersConfig ] },
-                { provide: AuthService, useClass: AuthService, deps: [ ProvidersConfig, LocalStorageService, Auth0Service, FirebaseService ] }
+                { provide: Auth0Service, useClass: Auth0Service, deps: [LocalStorageService, Http, ProvidersConfig] },
+                { provide: FirebaseService, useClass: FirebaseService, deps: [LocalStorageService, ProvidersConfig] },
+                {
+                    provide: AuthService,
+                    useClass: AuthService,
+                    deps: [ProvidersConfig, LocalStorageService, Auth0Service, FirebaseService]
+                }
             ]
         };
     }

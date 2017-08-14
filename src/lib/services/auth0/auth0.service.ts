@@ -29,25 +29,47 @@ export class Auth0Service implements Provider {
 
     login(user: User): Observable<any> {
         // Intialize the localstorage to be used by auth0 provider
-        return Observable.create(ovserver => {
-            const ob = ovserver;
-            this.http.post(this.url, Object.assign(this.authConfig, user)).subscribe(res => {
-                const jsonRes = res.json();
-
+        return this.http.post(this.url, Object.assign(this.authConfig, user))
+            .catch(err => Observable.throw(err))
+            .map(res => {
+                const jsonRes = JSON.parse(res['_body']);
                 // Sets the local storage with the jwt token obtained from auth0 login.
                 this.ls.token = jsonRes.id_token;
-
-                // Publish the new value to an observable
-                ob.next(jsonRes);
-
-                // Complete the observable
-                ob.complete();
+                return jsonRes;
             });
-        });
     }
 
     // Clear the localstorage related with authO
     logout() {
         this.ls.clearLocalStorage();
+        return Observable.of(true)
     };
+
+
+    // Sign up using email and password
+    signUp(user: User): Observable<any> {
+        const data = {
+            ClientId: this.config.auth0.client_id,
+            email: user.username,
+            password: user.password,
+            user_metadata: user.user_metadata || {}
+        };
+
+        // Create an api url from the domain.
+        const singUpURL = 'https://' + this.config.auth0.domain + '/dbconnections/signup';
+        return this.http.post(singUpURL, data).map(res => res.json());
+    }
+
+    // Reset password request to email.
+    resetPassword(email: string): Observable<any> {
+        const data = {
+            ClientId: this.config.auth0.client_id,
+            email: email,
+            connection: this.authConfig.realm
+        };
+
+        // Create an api url from the domain.
+        const passResetURL = 'https://' + this.config.auth0.domain + '/dbconnections/change_password';
+        return this.http.post(passResetURL, data).map(res => res.json());
+    }
 }

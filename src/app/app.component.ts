@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'lib/services/auth/auth.service';
 import { UserService } from 'lib/services/user/user.service';
-
+import { User } from 'lib/models/user.model'
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -35,14 +35,14 @@ export class AppComponent implements OnInit {
     }
 
     login(provider, username, password) {
-        const user = { username: username, password: password };
+        const user: User = { username: username, password: password };
         this.authProvider = this.auth.provider(provider);
         if (this.userservice.isAuthenticated()) {
             this.updateData(provider);
         } else {
             this.authProvider.login(user).subscribe(res => {
                 this.updateData(provider);
-            });
+            }, error => console.log('Error from component', error));
         }
     }
 
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     }
 
     logout() {
-        this.authProvider.logout();
+        this.authProvider.logout().subscribe(res => console.log(res));
     }
 
 }

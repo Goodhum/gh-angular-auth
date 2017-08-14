@@ -9,12 +9,14 @@ import { LocalStorageService } from '../local-storage.service';
  * AuthService is a container for all the provider service.
  */
 
+
 @Injectable()
 export class AuthService {
 
     private auth0;
     private firebase;
 
+    // Register all the service
     constructor(
         private config: ProvidersConfig,
         private ls: LocalStorageService,
@@ -25,6 +27,8 @@ export class AuthService {
         if (config.firebase) { this.firebase = firebaseProvider; }
     }
 
+
+    // It switches between the providers to use.
     provider(provider: string): Provider {
         this.ls.initialize(provider);
         return this[provider.toLowerCase()];

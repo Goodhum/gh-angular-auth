@@ -4,7 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
 import { LocalStorageService } from '../local-storage.service';
-import { ProvidersConfig } from 'lib/models';
+import { ProvidersConfig } from '../../models';
 
 @Injectable()
 export class UserService implements CanActivate {

@@ -1,6 +1,6 @@
 {
   "name": "@goodhum/gh-angular-auth",
-  "version": "1.0.0",
+  "version": "0.0.7",
   "description": "Authentication module for Angular4+",
   "main": "gh-angular-auth.umd.js",
   "module": "index.js",

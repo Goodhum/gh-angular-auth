@@ -70,6 +70,6 @@ export class Auth0Service implements Provider {
 
         // Create an api url from the domain.
         const passResetURL = 'https://' + this.config.auth0.domain + '/dbconnections/change_password';
-        return this.http.post(passResetURL, data).map(res => res.json());
+        return this.http.post(passResetURL, data).map(res => res);
     }
 }

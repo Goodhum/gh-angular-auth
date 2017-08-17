@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Provider, ProvidersConfig, User } from '../../models';
+import { Auth0Config, Provider, ProvidersConfig, User } from '../../models';
 import { LocalStorageService } from '../local-storage.service';
 
 @Injectable()
 export class Auth0Service implements Provider {
     // These are the default settings for auth0 it can be overridden by the configuration provided by the user
-    private authConfig = {
+    private authConfig: Auth0Config = {
+        domain: '',
+        client_id: '',
         scope: 'openid',
         realm: 'Username-Password-Authentication',
         grant_type: 'http://auth0.com/oauth/grant-type/password-realm'
@@ -28,9 +30,9 @@ export class Auth0Service implements Provider {
     }
 
     login(user: User): Observable<any> {
+        console.log(this.url, Object.assign(this.authConfig, user))
         // Intialize the localstorage to be used by auth0 provider
         return this.http.post(this.url, Object.assign(this.authConfig, user))
-            .catch(err => Observable.throw(err))
             .map(res => {
                 const jsonRes = JSON.parse(res['_body']);
                 // Sets the local storage with the jwt token obtained from auth0 login.
@@ -49,9 +51,10 @@ export class Auth0Service implements Provider {
     // Sign up using email and password
     signUp(user: User): Observable<any> {
         const data = {
-            ClientId: this.config.auth0.client_id,
+            ClientId: this.authConfig.client_id,
             email: user.username,
             password: user.password,
+            connection: this.authConfig.realm,
             user_metadata: user.user_metadata || {}
         };
 
@@ -63,7 +66,7 @@ export class Auth0Service implements Provider {
     // Reset password request to email.
     resetPassword(email: string): Observable<any> {
         const data = {
-            ClientId: this.config.auth0.client_id,
+            ClientId: this.authConfig.client_id,
             email: email,
             connection: this.authConfig.realm
         };

@@ -1,14 +1,19 @@
-.gh-container{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    .gh-providers{
-        min-height: 500px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        textarea{
-            min-height: 400px;
-        }
-    }
+:host{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.gh-container {
+    margin-top: 5%;
+    margin-left: 10%;
+}
+pre{
+    margin-right: 50px;
+    padding: 10px;
+    overflow: scroll;
+    background: #2f383d;
+    color: white;
+    border-radius: 3px;
 }

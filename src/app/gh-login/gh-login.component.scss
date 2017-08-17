@@ -1,0 +1,13 @@
+md-dialog-content{
+    min-width: 250px;
+    min-height: 150px;
+    img{
+        width: 75px;
+        margin-left: calc(50% - 37.5px);
+    }
+}
+.gh-reset-password {
+    text-align: center;
+    margin-top: 5px;
+    cursor: pointer;
+}

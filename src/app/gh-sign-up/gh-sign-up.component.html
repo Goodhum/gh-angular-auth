@@ -1,0 +1,32 @@
+<div md-dialog-title>Login to {{ data }}</div>
+<div [formGroup]="registerForm">
+    <md-dialog-content fxLayout="column" fxLayoutGap="20px">
+        <img [src]="'./assets/'+ data +'.png'">
+        <md-input-container floatPlaceholder="always">
+            <input mdInput placeholder="Email" formControlName="username">
+        </md-input-container>
+
+        <div>
+            <md-input-container floatPlaceholder="always">
+                <input mdInput placeholder="Password" type="password"
+                       #password formControlName="password">
+            </md-input-container>
+            <div class="gh-error" *ngIf="!registerForm.controls['password'].valid">* Password must contain 6 character.
+            </div>
+        </div>
+
+        <md-input-container floatPlaceholder="always">
+            <input mdInput placeholder="Confirm Password" type="password"
+                   #confirmPassword formControlName="confirmPassword">
+        </md-input-container>
+    </md-dialog-content>
+    <md-dialog-actions fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button md-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+            <button md-raised-button color="primary"
+                    [disabled]="!registerForm.valid || (password.value !== confirmPassword.value)"
+                    (click)="signUp(registerForm.value)">Register
+            </button>
+        </div>
+    </md-dialog-actions>
+</div>

@@ -1,26 +1,26 @@
-<div class="gh-container">
-    <div class="gh-providers">
-        <h1>FIREBASE Logged Data</h1>
-        <label>User authentication with Firebase = {{ state.firebase.authenticated }}</label>
-        <textarea>{{ state.firebase.data | json }}</textarea>
-        <div class="gh-actions-button">
-            <button (click)="login('firebase', user.value, pass.value)">Login with Firebase</button>
-            <button (click)="logout();updateData('firebase')">LogOut</button>
-        </div>
-    </div>
-    <div class="gh-providers">
-        <label>Email<br><input type="text" #user></label>
-        <label>Password<br><input type="password" #pass></label>
-    </div>
-    <div class="gh-providers">
-        <h1>AUTH0 Logged Data</h1>
-        <label>User authentication with AUTH0 = {{ state.auth0.authenticated }}</label>
-        <textarea>{{ state.auth0.data | json }}</textarea>
-        <div class="gh-actions-button">
-            <button (click)="login('auth0', user.value, pass.value)">Login with Auth0</button>
-            <button (click)="logout();updateData('auth0')">LogOut</button>
-        </div>
+<div *ngIf="!provider" class="gh-container" fxLayout="column" fxLayoutGap="25px">
+    <label>SELECT A PROVIDER TO LOG IN</label>
+    <div fxLayout="row" fxLayoutGap="50px">
+        <button md-raised-button (click)="setProviders('auth0')">AUTH0</button>
+        <button md-raised-button (click)="setProviders('firebase')">FIREBASE</button>
     </div>
 </div>
 
+<div *ngIf="provider" class="gh-container" fxLayout="column" fxLayoutGap="25px">
+    <div fxLayout="row" fxLayoutGap=" 50px" fxLayoutAlign=" center">
+        <button md-button (click)="provider=''">
+            <md-icon>keyboard_backspace</md-icon>
+        </button>
 
+        <label>{{ provider.toUpperCase() }}</label>
+    </div>
+    <div fxLayout="row" fxLayoutGap="50px">
+        <button md-raised-button [disabled]="userService.isAuthenticated()"
+                (click)="signUpDialog()">SignUp</button>
+        <button md-raised-button [disabled]="userService.isAuthenticated()"
+                (click)="loginDialog()">Login</button>
+        <button md-raised-button  [disabled]="!userService.isAuthenticated()"
+                (click)="logout()">Logout</button>
+    </div>
+    <pre>{{ userData | json }}</pre>
+</div>

@@ -1,0 +1,41 @@
+<ng-container *ngIf="!resetPassword">
+    <div md-dialog-title>Login to {{ data }}</div>
+    <md-dialog-content fxLayout="column" fxLayoutGap="20px">
+        <img [src]="'./assets/'+ data +'.png'">
+        <md-input-container floatPlaceholder="always">
+            <input mdInput #username placeholder="username">
+        </md-input-container>
+
+        <md-input-container floatPlaceholder="always">
+            <input mdInput type="password" #password placeholder="Password">
+        </md-input-container>
+
+    </md-dialog-content>
+    <md-dialog-actions fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button md-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+            <button md-raised-button color="primary"
+                    (click)="onLogin(username.value, password.value)">Login
+            </button>
+        </div>
+        <div class="gh-reset-password" (click)="resetPassword=true">Forgot Password</div>
+    </md-dialog-actions>
+</ng-container>
+
+<ng-container *ngIf="resetPassword">
+    <div md-dialog-title>Reset Password Request</div>
+    <md-dialog-content fxLayout="column" fxLayoutGap="20px">
+        <img [src]="'./assets/'+ data +'.png'">
+        <md-input-container floatPlaceholder="always">
+            <input mdInput type="email" #resetForm placeholder="Enter your eamil">
+        </md-input-container>
+    </md-dialog-content>
+    <md-dialog-actions fxLayout="column" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button md-raised-button color="primary" (click)="resetPassword=false">Back</button>
+            <button md-raised-button color="primary"
+                    (click)="onReset(resetForm.value)">Send
+            </button>
+        </div>
+    </md-dialog-actions>
+</ng-container>

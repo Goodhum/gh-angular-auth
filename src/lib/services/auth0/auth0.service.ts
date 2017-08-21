@@ -30,8 +30,7 @@ export class Auth0Service implements Provider {
     }
 
     login(user: User): Observable<any> {
-        console.log(this.url, Object.assign(this.authConfig, user))
-        // Intialize the localstorage to be used by auth0 provider
+        // console.log(this.url, Object.assign(this.authConfig, user))
         return this.http.post(this.url, Object.assign(this.authConfig, user))
             .map(res => {
                 const jsonRes = JSON.parse(res['_body']);
@@ -59,7 +58,7 @@ export class Auth0Service implements Provider {
         };
 
         // Create an api url from the domain.
-        const singUpURL = 'https://' + this.config.auth0.domain + '/dbconnections/signup';
+        const singUpURL = 'https://' + this.authConfig.domain + '/dbconnections/signup';
         return this.http.post(singUpURL, data).map(res => res.json());
     }
 

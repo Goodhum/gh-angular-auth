@@ -1,7 +1,7 @@
 // import { TestBed, async } from '@angular/core/testing';
 //
 // import { AppComponent } from './app.component';
-// import { MdIconModule, MdSnackBarModule } from '@angular/material';
+// import { matIconModule, matSnackBarModule } from '@angular/material';
 // import { AuthService } from 'lib/services/auth/auth.service';
 // import { UserService } from 'lib/services/user/user.service';
 // import { GhLoginDialogService } from 'app/services/gh-login-dialog.service';
@@ -11,8 +11,8 @@
 //     beforeEach(async(() => {
 //         TestBed.configureTestingModule({
 //             imports: [
-//                 MdIconModule,
-//                 MdSnackBarModule
+//                 matIconModule,
+//                 matSnackBarModule
 //             ],
 //             declarations: [
 //                 AppComponent

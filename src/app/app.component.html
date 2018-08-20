@@ -1,25 +1,25 @@
 <div *ngIf="!provider" class="gh-container" fxLayout="column" fxLayoutGap="25px">
     <label>SELECT A PROVIDER TO LOG IN</label>
     <div fxLayout="row" fxLayoutGap="50px">
-        <button md-raised-button (click)="setProviders('auth0')">AUTH0</button>
-        <button md-raised-button (click)="setProviders('firebase')">FIREBASE</button>
+        <button mat-raised-button (click)="setProviders('auth0')">AUTH0</button>
+        <button mat-raised-button (click)="setProviders('firebase')">FIREBASE</button>
     </div>
 </div>
 
 <div *ngIf="provider" class="gh-container" fxLayout="column" fxLayoutGap="25px">
     <div fxLayout="row" fxLayoutGap=" 50px" fxLayoutAlign=" center">
-        <button md-button (click)="provider=''">
-            <md-icon>keyboard_backspace</md-icon>
+        <button mat-button (click)="provider=''">
+            <mat-icon>keyboard_backspace</mat-icon>
         </button>
 
         <label>{{ provider.toUpperCase() }}</label>
     </div>
     <div fxLayout="row" fxLayoutGap="50px">
-        <button md-raised-button [disabled]="userService.isAuthenticated()"
+        <button mat-raised-button [disabled]="userService.isAuthenticated()"
                 (click)="signUpDialog()">SignUp</button>
-        <button md-raised-button [disabled]="userService.isAuthenticated()"
+        <button mat-raised-button [disabled]="userService.isAuthenticated()"
                 (click)="loginDialog()">Login</button>
-        <button md-raised-button  [disabled]="!userService.isAuthenticated()"
+        <button mat-raised-button  [disabled]="!userService.isAuthenticated()"
                 (click)="logout()">Logout</button>
     </div>
     <pre>{{ userData | json }}</pre>

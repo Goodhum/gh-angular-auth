@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
-import { GhLoginDialogService } from 'app/services/gh-login-dialog.service';
-import { GhSignUpDialogService } from 'app/services/gh-sign-up-dialog.service';
-import { User } from 'lib/models/user.model';
-import { AuthService } from 'lib/services/auth/auth.service';
-import { UserService } from 'lib/services/user/user.service';
+import { MatSnackBar } from '@angular/material';
+import { GhLoginDialogService } from './services/gh-login-dialog.service';
+import { GhSignUpDialogService } from './services/gh-sign-up-dialog.service';
+import { User } from '../lib/models/user.model';
+import { AuthService } from '../lib/services/auth/auth.service';
+import { UserService } from '../lib/services/user/user.service';
 
 @Component({
     selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
     userData: any = {};
 
-    constructor(private snackBar: MdSnackBar,
+    constructor(private snackBar: MatSnackBar,
                 public auth: AuthService,
                 public userService: UserService,
                 private signUpDialogService: GhSignUpDialogService,

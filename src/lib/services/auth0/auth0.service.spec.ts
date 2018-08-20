@@ -4,8 +4,8 @@ import {
     XHRBackend
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { ProvidersConfig } from 'lib/models';
-import { LocalStorageService } from 'lib/services';
+import { ProvidersConfig } from '../../models';
+import { LocalStorageService } from '../../services';
 
 import { Auth0Service } from './auth0.service';
 
@@ -16,7 +16,8 @@ describe('Auth0Service', () => {
             domain: 'test.com',
             client_id: 'test_id'
         }
-    }
+    };
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
@@ -70,7 +71,7 @@ describe('Auth0Service', () => {
                                 message: 'Password changed'
                             }
                         }))
-                )
+                );
             });
 
             authService.resetPassword('test@test.com').subscribe((res) => {
@@ -97,7 +98,7 @@ describe('Auth0Service', () => {
                                 token: '234lsdfsdf'
                             }
                         }))
-                )
+                );
             });
 
             authService.signUp({ username: 'test@gmail.com', password: 'test' }).subscribe((res) => {

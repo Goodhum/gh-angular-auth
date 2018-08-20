@@ -6,15 +6,15 @@ import { AppComponent } from './app.component';
 import { config } from './providers.config';
 import { GhLoginComponent } from './gh-login/gh-login.component';
 import {
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule,
-    MdSnackBarModule
+    MatButtonModule, MatDialogModule, MatIconModule, MatInputModule,
+    MatSnackBarModule
 } from '@angular/material';
-import { GhLoginDialogService } from 'app/services/gh-login-dialog.service';
+import { GhLoginDialogService } from './services/gh-login-dialog.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GhSignUpComponent } from './gh-sign-up/gh-sign-up.component';
-import { GhSignUpDialogService } from 'app/services/gh-sign-up-dialog.service';
+import { GhSignUpDialogService } from './services/gh-sign-up-dialog.service';
 
 @NgModule({
     declarations: [
@@ -24,13 +24,13 @@ import { GhSignUpDialogService } from 'app/services/gh-sign-up-dialog.service';
     ],
     imports: [
         FormsModule,
-        MdIconModule,
+        MatIconModule,
         BrowserModule,
-        MdInputModule,
-        MdDialogModule,
-        MdButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatButtonModule,
         FlexLayoutModule,
-        MdSnackBarModule,
+        MatSnackBarModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         GhAuthModule.forRoot(config)

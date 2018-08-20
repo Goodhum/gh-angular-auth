@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Auth0Config, Provider, ProvidersConfig, User } from '../../models';
 import { LocalStorageService } from '../local-storage.service';
@@ -32,19 +33,19 @@ export class Auth0Service implements Provider {
     login(user: User): Observable<any> {
         // console.log(this.url, Object.assign(this.authConfig, user))
         return this.http.post(this.url, Object.assign(this.authConfig, user))
-            .map(res => {
+            .pipe(map(res => {
                 const jsonRes = JSON.parse(res['_body']);
                 // Sets the local storage with the jwt token obtained from auth0 login.
                 this.ls.token = jsonRes.id_token;
                 return jsonRes;
-            });
+            }));
     }
 
     // Clear the localstorage related with authO
     logout() {
         this.ls.clearLocalStorage();
-        return Observable.of(true)
-    };
+        return of(true);
+    }
 
 
     // Sign up using email and password
@@ -59,7 +60,7 @@ export class Auth0Service implements Provider {
 
         // Create an api url from the domain.
         const singUpURL = 'https://' + this.authConfig.domain + '/dbconnections/signup';
-        return this.http.post(singUpURL, data).map(res => res.json());
+        return this.http.post(singUpURL, data).pipe(map(res => res.json()));
     }
 
     // Reset password request to email.
@@ -72,6 +73,6 @@ export class Auth0Service implements Provider {
 
         // Create an api url from the domain.
         const passResetURL = 'https://' + this.config.auth0.domain + '/dbconnections/change_password';
-        return this.http.post(passResetURL, data).map(res => res);
+        return this.http.post(passResetURL, data).pipe(map(res => res));
     }
 }

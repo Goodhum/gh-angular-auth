@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { from, Observable } from 'rxjs';
 import * as firebase from 'firebase';
 
 import { Provider, User, ProvidersConfig } from '../../models';
@@ -22,7 +22,7 @@ export class FirebaseService implements Provider {
     // Logout from the firebase and clear the local storage
     logout(): Observable<any> {
         this.ls.clearLocalStorage();
-        return Observable.fromPromise(this.fb.auth().signOut());
+        return from(this.fb.auth().signOut());
     }
 
     // Login to Firebase with the credentials provided and after a successfull response, JWT token is saved to the
@@ -34,7 +34,7 @@ export class FirebaseService implements Provider {
 
         this.fb.auth().signInWithEmailAndPassword(user.username, user.password)
             .then(res => {
-                const jsonRes = res.toJSON();
+                const jsonRes = JSON.parse(JSON.stringify(res));
 
                 // Sets the local storage with the jwt token obtained from firebase login.
                 this.ls.token = jsonRes.stsTokenManager.accessToken;
@@ -53,11 +53,11 @@ export class FirebaseService implements Provider {
 
     // Sign Up using the email and password.
     signUp(user: User): Observable<any> {
-        return Observable.fromPromise(this.fb.auth().createUserWithEmailAndPassword(user.username, user.password));
+        return from(this.fb.auth().createUserWithEmailAndPassword(user.username, user.password));
     }
 
     // Reset password request to email.
     resetPassword(email: string): Observable<any> {
-        return Observable.fromPromise(this.fb.auth().sendPasswordResetEmail(email));
+        return from(this.fb.auth().sendPasswordResetEmail(email));
     }
 }

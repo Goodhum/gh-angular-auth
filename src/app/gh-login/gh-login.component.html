@@ -1,41 +1,41 @@
 <ng-container *ngIf="!resetPassword">
-    <div md-dialog-title>Login to {{ data }}</div>
-    <md-dialog-content fxLayout="column" fxLayoutGap="20px">
+    <div mat-dialog-title>Login to {{ data }}</div>
+    <mat-dialog-content fxLayout="column" fxLayoutGap="20px">
         <img [src]="'./assets/'+ data +'.png'">
-        <md-input-container floatPlaceholder="always">
-            <input mdInput #username placeholder="username">
-        </md-input-container>
+        <mat-form-field floatPlaceholder="always">
+            <input matInput #username placeholder="username">
+        </mat-form-field>
 
-        <md-input-container floatPlaceholder="always">
-            <input mdInput type="password" #password placeholder="Password">
-        </md-input-container>
+        <mat-form-field floatPlaceholder="always">
+            <input matInput type="password" #password placeholder="Password">
+        </mat-form-field>
 
-    </md-dialog-content>
-    <md-dialog-actions fxLayout="column" fxLayoutGap="8px">
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="space-between center">
-            <button md-raised-button color="warn" (click)="closeDialog()">Cancel</button>
-            <button md-raised-button color="primary"
+            <button mat-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+            <button mat-raised-button color="primary"
                     (click)="onLogin(username.value, password.value)">Login
             </button>
         </div>
         <div class="gh-reset-password" (click)="resetPassword=true">Forgot Password</div>
-    </md-dialog-actions>
+    </mat-dialog-actions>
 </ng-container>
 
 <ng-container *ngIf="resetPassword">
-    <div md-dialog-title>Reset Password Request</div>
-    <md-dialog-content fxLayout="column" fxLayoutGap="20px">
+    <div mat-dialog-title>Reset Password Request</div>
+    <mat-dialog-content fxLayout="column" fxLayoutGap="20px">
         <img [src]="'./assets/'+ data +'.png'">
-        <md-input-container floatPlaceholder="always">
-            <input mdInput type="email" #resetForm placeholder="Enter your eamil">
-        </md-input-container>
-    </md-dialog-content>
-    <md-dialog-actions fxLayout="column" fxLayoutGap="8px">
+        <mat-form-field floatPlaceholder="always">
+            <input matInput type="email" #resetForm placeholder="Enter your eamil">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayout="column" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="space-between center">
-            <button md-raised-button color="primary" (click)="resetPassword=false">Back</button>
-            <button md-raised-button color="primary"
+            <button mat-raised-button color="primary" (click)="resetPassword=false">Back</button>
+            <button mat-raised-button color="primary"
                     (click)="onReset(resetForm.value)">Send
             </button>
         </div>
-    </md-dialog-actions>
+    </mat-dialog-actions>
 </ng-container>

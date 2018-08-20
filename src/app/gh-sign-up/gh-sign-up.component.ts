@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'app-gh-sign-up',
@@ -13,7 +13,7 @@ export class GhSignUpComponent implements OnInit {
 
     registerForm: FormGroup;
 
-    constructor(private dialogRef: MdDialogRef<GhSignUpComponent>,
+    constructor(private dialogRef: MatDialogRef<GhSignUpComponent>,
                 private fb: FormBuilder) { }
 
     ngOnInit() {

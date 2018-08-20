@@ -1,15 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { JwtHelper } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { of, Observable } from 'rxjs';
 
 import { LocalStorageService } from '../local-storage.service';
 import { ProvidersConfig } from '../../models';
 
+
 @Injectable()
 export class UserService implements CanActivate {
 
-    private _jwtHelper: JwtHelper = new JwtHelper();
+    private _jwtHelper: JwtHelperService = new JwtHelperService();
     private _router: Router;
 
     constructor(private injector: Injector,
@@ -55,7 +56,7 @@ export class UserService implements CanActivate {
         if (!this.isAuthenticated() && this.config.redirectUrl) {
             this._router.navigate([this.config.redirectUrl]);
         }
-        return Observable.of(this.isAuthenticated());
+        return of(this.isAuthenticated());
 
     }
 

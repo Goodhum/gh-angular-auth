@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
     selector: 'app-gh-login',
@@ -13,7 +13,7 @@ export class GhLoginComponent implements OnInit {
 
     resetPassword = false;
 
-    constructor(private dialogRef: MdDialogRef<GhLoginComponent>) { }
+    constructor(private dialogRef: MatDialogRef<GhLoginComponent>) { }
 
     ngOnInit() {
     }

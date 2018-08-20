@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 
 import { Provider, User, ProvidersConfig } from '../../models';
 import { LocalStorageService } from '../local-storage.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class FirebaseService implements Provider {

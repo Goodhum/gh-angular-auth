@@ -1,5 +1,5 @@
 import { User } from './user.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface Provider {
     login: (user: User) => Observable<any>;
